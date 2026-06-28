@@ -118,10 +118,10 @@
         <div class="instagram-icon">📱</div>
 
         <div class="message">
-            Click the button below to follow us on Instagram and then visit our website!
+            Click the button below to follow us on Instagram!
         </div>
 
-        <button class="button" onclick="trackAndRedirect()">
+        <button class="button" onclick="redirectToInstagram()">
             📸 Follow on Instagram
         </button>
 
@@ -136,7 +136,7 @@
     </div>
 
     <script>
-        function trackAndRedirect() {
+        function redirectToInstagram() {
             // Google Analytics event tracking
             gtag('event', 'instagram_button_click', {
                 'event_category': 'engagement',
@@ -144,14 +144,31 @@
                 'source': 'instagram'
             });
 
-            // Redirect to Instagram
-            window.location.href = 'https://www.instagram.com/usanow2026/';
+            // Store redirect intent in sessionStorage
+            sessionStorage.setItem('redirectSource', 'instagram');
+            sessionStorage.setItem('redirectTime', new Date().toISOString());
 
-            // Optional: After 3 seconds, also open your website in new tab
-            setTimeout(() => {
-                window.open('http://homeautofinance.kesug.com/?source=instagram', '_blank');
-            }, 3000);
+            // Create Instagram URL with redirect parameter
+            const instagramUrl = 'https://www.instagram.com/usanow2026/?utm_source=landing_page&utm_medium=referral&utm_campaign=traffic_tracking';
+            
+            // Redirect to Instagram
+            window.location.href = instagramUrl;
         }
+
+        // Check if user is coming back from Instagram
+        window.addEventListener('load', function() {
+            const redirectSource = sessionStorage.getItem('redirectSource');
+            if (redirectSource === 'instagram') {
+                // Clear the session storage
+                sessionStorage.removeItem('redirectSource');
+                
+                // Wait a bit then redirect to website with parameters
+                setTimeout(() => {
+                    const websiteUrl = 'http://homeautofinance.kesug.com/?source=instagram&utm_source=instagram&utm_medium=referral&utm_campaign=traffic_tracking&timestamp=' + new Date().getTime();
+                    window.location.href = websiteUrl;
+                }, 2000);
+            }
+        });
     </script>
 </body>
 </html>
