@@ -1,1 +1,157 @@
-# instagram
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Instagram Traffic Tracker</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-16JZE3GWJ8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-16JZE3GWJ8');
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .instagram-icon {
+            font-size: 60px;
+            margin: 20px 0;
+        }
+
+        .message {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .tracking-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Welcome!</h1>
+            <p>Join us on Instagram for exclusive updates</p>
+        </div>
+
+        <div class="instagram-icon">📱</div>
+
+        <div class="message">
+            Click the button below to follow us on Instagram and then visit our website!
+        </div>
+
+        <button class="button" onclick="trackAndRedirect()">
+            📸 Follow on Instagram
+        </button>
+
+        <div class="tracking-info">
+            ✅ Your visit is being tracked via Google Analytics<br>
+            Traffic Source: Instagram
+        </div>
+
+        <div class="footer">
+            <p>homeautofinance.kesug.com</p>
+        </div>
+    </div>
+
+    <script>
+        function trackAndRedirect() {
+            // Google Analytics event tracking
+            gtag('event', 'instagram_button_click', {
+                'event_category': 'engagement',
+                'event_label': 'instagram_redirect',
+                'source': 'instagram'
+            });
+
+            // Redirect to Instagram
+            window.location.href = 'https://www.instagram.com/usanow2026/';
+
+            // Optional: After 3 seconds, also open your website in new tab
+            setTimeout(() => {
+                window.open('http://homeautofinance.kesug.com/?source=instagram', '_blank');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
