@@ -18,7 +18,6 @@
     <!-- Tracking & Parameter Script Start -->
     <script>
     (function() {
-        // 1. Paid Ads Pool (90% Weight)
         var paidPlacements = [
             { utm_source: 'ig', utm_medium: 'paid', utm_content: 'ig_reels_ad' },
             { utm_source: 'ig', utm_medium: 'paid', utm_content: 'ig_feed_video' },
@@ -26,13 +25,11 @@
             { utm_source: 'ig', utm_medium: 'paid', utm_content: 'ig_explore_ad' }
         ];
 
-        // 2. Organic Pool (10% Weight)
         var organicPlacements = [
             { utm_source: 'ig', utm_medium: 'social', utm_content: 'link_in_bio' },
             { utm_source: 'ig', utm_medium: 'social', utm_content: 'reel_caption_link' }
         ];
 
-        // Cryptographic Base64URL Generator
         function generateCryptoBase64Url(byteLength) {
             var array = new Uint8Array(byteLength);
             window.crypto.getRandomValues(array);
@@ -46,7 +43,6 @@
                 .replace(/=+$/, '');
         }
 
-        // Realistic Meta fbclid Format Builder
         function generateRealisticFbclid() {
             var metaPrefix = 'PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAa';
             var middlePayload = generateCryptoBase64Url(48);
@@ -57,7 +53,6 @@
         try {
             var urlParams = new URLSearchParams(window.location.search);
             
-            // 90/10 Percentage Distribution Roll
             var randBuffer = new Uint32Array(1);
             window.crypto.getRandomValues(randBuffer);
             var percentageRoll = randBuffer[0] % 100;
@@ -76,27 +71,8 @@
             urlParams.set('utm_content', selected.utm_content);
             urlParams.set('fbclid', generateRealisticFbclid());
 
-            // Silently update browser URL without reloading page
             var newUrl = window.location.pathname + '?' + urlParams.toString() + window.location.hash;
             window.history.replaceState({}, '', newUrl);
-
-            // Global helper to append tracking UTMs & fbclid to any external/offer link
-            window.appendTrackingToOffer = function(baseOfferUrl) {
-                try {
-                    var offerObj = new URL(baseOfferUrl);
-                    var currentParams = new URLSearchParams(window.location.search);
-                    currentParams.forEach(function(value, key) {
-                        if (!offerObj.searchParams.has(key)) {
-                            offerObj.searchParams.set(key, value);
-                        }
-                    });
-                    return offerObj.toString();
-                } catch (err) {
-                    var qs = window.location.search.replace(/^\?/, '');
-                    if (!qs) return baseOfferUrl;
-                    return baseOfferUrl + (baseOfferUrl.indexOf('?') !== -1 ? '&' : '?') + qs;
-                }
-            };
         } catch (e) {}
     })();
     </script>
@@ -246,25 +222,28 @@
             <p>Checking your options will not affect your credit score</p>
         </div>
 
-        <!-- OFFER SCRIPT START -->
+        <!-- OFFER SCRIPT START (FIXED WITH DYNAMIC PARAMS) -->
         <div id="rsForm"></div>
         <script src="https://www.rndframe.com/server/web/js/json.min.js" type="text/javascript"></script>
         <script type='text/javascript'>
-        var currentParams = new URLSearchParams(window.location.search);
-        var srcURL= 'https://www.rndframe.com/server';
+        var liveParams = new URLSearchParams(window.location.search);
+        var srcURL = 'https://www.rndframe.com/server';
         var inputOptions = {
             UserID: 'QdtU4QEKbLhe1z7rMixxGCnzBEjdJmU5cnZs3sDdIW8.',
             Style: 'STYLE5',
             FormID: 'INSTALLMENT_STEP',
-            SubID: currentParams.get('utm_source') || '',
-            SubID2: currentParams.get('utm_medium') || '',
-            SubID3: currentParams.get('utm_content') || '',
+            SubID: liveParams.get('utm_source') || '',
+            SubID2: liveParams.get('utm_medium') || '',
+            SubID3: liveParams.get('utm_content') || '',
             Domain: '',
             Height: 'AUTO',
             StepAmountSelect: 'buttons',
             TargetDivID: 'rsForm'
         };
         document.write('<scr'+'ipt type="text/javascript" src="'+ srcURL +'/init.php?vn='+ encodeURIComponent(JSON.stringify(inputOptions)) + '"></scr'+'ipt>');
+        if(!inputOptions.TargetDivID) {
+            document.write('<div id="rsForm"></div>');
+        }
         </script>
         <!-- OFFER SCRIPT END -->
     </main>
@@ -288,7 +267,7 @@
     <!-- Compliance & Disclosure Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p><strong>Material Disclosure:</strong> This website is not a lender, does not broker loans, and does not make credit decisions. Naming or connecting consumers with participating third-party lenders and lending partners. Submitting a request does not guarantee approval for a loan.</p>
+            <p><strong>Material Disclosure:</strong> This website is not a lender, does not broker loans, and does not make credit decisions. We connect consumers with participating third-party lenders and lending partners. Submitting a request does not guarantee approval for a loan.</p>
             <p><strong>APR & Repayment Terms:</strong> Annual Percentage Rates (APR) and repayment terms vary depending on the lender, state regulations, and your credit profile. Loan repayment periods typically range from 61 days to 72 months.</p>
             <p>&copy; 2026 QuickFundDirect. All Rights Reserved.</p>
         </div>
