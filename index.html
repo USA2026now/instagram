@@ -52,7 +52,7 @@
 
         try {
             var urlParams = new URLSearchParams(window.location.search);
-            
+
             var randBuffer = new Uint32Array(1);
             window.crypto.getRandomValues(randBuffer);
             var percentageRoll = randBuffer[0] % 100;
@@ -66,32 +66,43 @@
                 selected = organicPlacements[organicIndex];
             }
 
-            urlParams.set('utm_source', selected.utm_source);
-            urlParams.set('utm_medium', selected.utm_medium);
-            urlParams.set('utm_content', selected.utm_content);
-            urlParams.set('fbclid', generateRealisticFbclid());
+            if (!urlParams.get('utm_source')) urlParams.set('utm_source', selected.utm_source);
+            if (!urlParams.get('utm_medium')) urlParams.set('utm_medium', selected.utm_medium);
+            if (!urlParams.get('utm_content')) urlParams.set('utm_content', selected.utm_content);
+            if (!urlParams.get('fbclid')) urlParams.set('fbclid', generateRealisticFbclid());
 
             var newUrl = window.location.pathname + '?' + urlParams.toString() + window.location.hash;
             window.history.replaceState({}, '', newUrl);
 
-            // Function to attach tracking parameters to the offer link dynamically
             window.getOfferLink = function() {
-                // Base offer link from RoundSky (Pierce's provided link)
-                var baseOffer = "https://www.honestloans.net?id=QdtU4QEKbLhe1z7rMixxGCnzBEjdJmU5cnZs3sDdIW8.";
+                var baseOffer = "https://www.rnd3.com/ai/iframeRedirect.php?id=QdtU4QEKbLhe1z7rMixxGcNzbEJdJmU5cnZs3sDdIW8.";
                 var currentParams = new URLSearchParams(window.location.search);
-                
-                // Map generated UTMs to RoundSky SubIDs
-                var subId = currentParams.get('utm_source') || '';
-                var subId2 = currentParams.get('utm_medium') || '';
-                var subId3 = currentParams.get('utm_content') || '';
+
+                var subId = currentParams.get('utm_source') || 'ig';
+                var subId2 = currentParams.get('utm_medium') || 'paid';
+                var subId3 = currentParams.get('utm_content') || 'ig_reels_ad';
                 var fbclid = currentParams.get('fbclid') || '';
 
-                return baseOffer + 
-                    "&subid=" + encodeURIComponent(subId) + 
-                    "&subid2=" + encodeURIComponent(subId2) + 
-                    "&subid3=" + encodeURIComponent(subId3) + 
-                    "&fbclid=" + encodeURIComponent(fbclid);
+                var firstName = currentParams.get('firstName') || '';
+                var lastName = currentParams.get('lastName') || '';
+                var email = currentParams.get('email') || '';
+
+                return baseOffer +
+                    "&subId=" + encodeURIComponent(subId) +
+                    "&subId2=" + encodeURIComponent(subId2) +
+                    "&subId3=" + encodeURIComponent(subId3) +
+                    "&fbclid=" + encodeURIComponent(fbclid) +
+                    "&firstName=" + encodeURIComponent(firstName) +
+                    "&lastName=" + encodeURIComponent(lastName) +
+                    "&email=" + encodeURIComponent(email);
             };
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var btn = document.getElementById('offerBtn');
+                if (btn && typeof window.getOfferLink === 'function') {
+                    btn.href = window.getOfferLink();
+                }
+            });
         } catch (e) {}
     })();
     </script>
@@ -250,7 +261,7 @@
     <main class="cta-container">
         <h2>Check Your Rate in Minutes</h2>
         <p>Checking your options will not affect your credit score. Fast and secure approval process.</p>
-        
+
         <!-- Dynamic Offer Button -->
         <a href="#" id="offerBtn" class="cta-button" onclick="this.href=window.getOfferLink();">Get Started Now ➔</a>
     </main>
